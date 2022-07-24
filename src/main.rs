@@ -1,10 +1,10 @@
 use std::fmt::Display;
 
-mod logic;
 mod display;
+mod logic;
 
 fn main() {
-    let eng = ['!', '?', '@']; 
+    let eng = ['!', '?', '@'];
     let blank = [' '];
     let scrn = logic::gen_screen(&eng.to_vec(), 15, 15);
     let conv = display::to_charcolor(scrn.clone());
@@ -14,9 +14,9 @@ fn main() {
     //let cycle = logic::next_line(scrn[0].clone(), col[0], (scrn.len() -1) as i32);
 }
 
-fn pretty_print<T: Display>(x:&Vec<Vec<T>>){
-    for i in x{
-        for j in i{
+fn pretty_print<T: Display>(x: &Vec<Vec<T>>) {
+    for i in x {
+        for j in i {
             print!("{}", j);
         }
         println!();
