@@ -1,4 +1,5 @@
-use pancurses;
+use pancurses::*;
+use std::rc::*;
 
 #[derive(Debug)]
 pub enum CharColor<T> {
@@ -6,19 +7,28 @@ pub enum CharColor<T> {
     Dim(T),
 }
 
-pub fn display(win: pancurses::Window, scrn: Vec<Vec<CharColor<char>>>) -> Result<(), ()> {
+
+pub fn disp_non(win:&Window){
+    win.addch(' ');
+    win.refresh();
+}
+
+pub fn display(win: &Window, scrn: Vec<Vec<CharColor<char>>>, color:i16){
+    init_pair(1, color, pancurses::COLOR_BLACK);
     for (i, val) in scrn.iter().enumerate() {
         for (j, val2) in val.iter().enumerate() {
-            match val2 {
-                &CharColor::Standard(T) => win.mvaddch(j as i32, i as i32, T),
-                &CharColor::Dim(T) => {
-                    win.attron(pancurses::A_DIM);
-                    win.mvaddch(j as i32, i as i32, T)
+            match *val2 {
+                CharColor::Standard(t) => {
+                    win.attrset(COLOR_PAIR(1));
+                    win.mvaddch(j as i32, i as i32, t)},
+                CharColor::Dim(t) => {
+                    win.attrset(pancurses::A_DIM);
+                    win.mvaddch(j as i32, i as i32, t)
                 }
             };
         }
     }
-    Ok(())
+    win.refresh();
 }
 
 pub fn to_charcolor(screen: Vec<Vec<char>>) -> Vec<Vec<CharColor<char>>> {

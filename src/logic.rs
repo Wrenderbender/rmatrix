@@ -33,10 +33,10 @@ pub fn next_line(column: Vec<char>, next_char: char, height: i32) -> VecDeque<ch
     column_q
 }
 
-pub fn gen_screen(charset: &Vec<char>, height: usize, width: usize) -> Vec<Vec<char>> {
+pub fn gen_screen(charset: &Vec<char>, height: &usize, width: &usize) -> Vec<Vec<char>> {
     let mut scrn: Vec<Vec<char>> = Vec::new();
-    for _ in 0..width {
-        scrn.push(gen_column(charset, height));
+    for _ in 0..*width {
+        scrn.push(gen_column(charset, *height));
     }
     scrn
 }
